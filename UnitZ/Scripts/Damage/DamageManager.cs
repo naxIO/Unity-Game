@@ -295,7 +295,7 @@ public class DamageManager : NetworkBehaviour
                 }
             }
         }
-        base.OnNetworkDestroy();
+        base.OnStopClient();
     }
 
 

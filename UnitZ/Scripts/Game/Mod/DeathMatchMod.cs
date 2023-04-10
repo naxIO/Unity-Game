@@ -6,7 +6,7 @@ using System.Collections;
 public class DeathMatchMod : MonoBehaviour
 {
 	public Texture2D TeamA, TeamB;
-	public GUISskin skin;
+	public GUISkin skin;
 
 	void Awake ()
 	{

@@ -552,7 +552,7 @@ public class CharacterSystem : DamageManager
     public void TargetReciveStock(NetworkConnection target, uint objectid)
     {
         NetworkServer.objects.TryGetValue(objectid, out NetworkIdentity networkIdentity);
-GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
+        GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
 
         if (obj)
         {
@@ -569,7 +569,7 @@ GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
     private void CmdDirectObjectInteractive(uint objectid)
     {
         NetworkServer.objects.TryGetValue(objectid, out NetworkIdentity networkIdentity);
-GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
+        GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
 
         if (obj)
         {
