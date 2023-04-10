@@ -34,25 +34,22 @@ public class GameManager : MonoBehaviour
         if (gametype == UnitZGameType.Single)
         {
             Debug.Log("Single Player Game");
-            GameNetwork.singleton.StartHostSolo(level);
+            // Remove the call to StartHostSolo
         }
 
-        if (gametype == UnitZGameType.HostOnline)
+        if (gametype == UnitZGameType.HostOnline || gametype == UnitZGameType.HostLan)
         {
             Debug.Log("Host Game");
-            GameNetwork.singleton.StartHost(level, true);
-        }
-
-        if (gametype == UnitZGameType.HostLan)
-        {
-            Debug.Log("Host Game");
-            GameNetwork.singleton.StartHost(level, false);
+            // Use the default StartHost method
+            NetworkManager.singleton.StartHost();
         }
 
         if (gametype == UnitZGameType.Connect)
         {
             Debug.Log("Connect Game");
-            GameNetwork.singleton.JoinGame("localhost", 7777);
+            // Use the default StartClient method
+            NetworkManager.singleton.networkAddress = "localhost";
+            NetworkManager.singleton.StartClient();
         }
 
         PlayerPrefs.SetString("user_name", UserName);
@@ -72,7 +69,10 @@ public class GameManager : MonoBehaviour
         if (UnitZ.playerManager != null)
             UnitZ.playerManager.Reset();
 
-        GameNetwork.singleton.Disconnect();
+        // Use the default StopHost and StopClient methods
+        NetworkManager.singleton.StopHost();
+        NetworkManager.singleton.StopClient();
+
         UnitZ.aiManager.Clear();
     }
 

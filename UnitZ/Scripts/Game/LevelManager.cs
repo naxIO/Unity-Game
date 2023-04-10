@@ -11,6 +11,6 @@ public class LevelManager : NetworkBehaviour
     private void Update()
     {
         if (Preloader != null)
-            Preloader.SetActive(!UnitZ.gameNetwork.IsClientLoadedScene() && UnitZ.gameNetwork.isNetworkActive);
+            Preloader.SetActive(!UnitZ.gameNetwork.IsClientLoadedScene && UnitZ.gameNetwork.isNetworkActive);
     }
 }

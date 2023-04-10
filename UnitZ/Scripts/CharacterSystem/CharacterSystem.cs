@@ -5,6 +5,9 @@ using Mirror;
 
 public class CharacterSystem : DamageManager
 {
+
+    // Add this line to define the Stock property
+    public int Stock { get; set; }
     [HideInInspector]
     [SyncVar]
     public string CharacterKey = "";
@@ -548,34 +551,36 @@ public class CharacterSystem : DamageManager
         TargetReciveStock(connectionToClient, stocker.netId);
     }
 
-    [TargetRpc]
-    public void TargetReciveStock(NetworkConnection target, uint objectid)
+    [TargetRpc(channel = 0)]
+    private void TargetReciveStock(NetworkConnection conn, uint objectid)
     {
-        NetworkServer.objects.TryGetValue(objectid, out NetworkIdentity networkIdentity);
-        GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
-
-        if (obj)
+        if (NetworkServer.spawned.ContainsKey(objectid))
         {
-            ItemStocker itemstock = obj.GetComponent<ItemStocker>();
-            if (itemstock)
+            NetworkIdentity networkIdentity;
+            if (NetworkServer.spawned.TryGetValue(objectid, out networkIdentity))
             {
-                itemstock.inventory.PeerTrade = this.inventory;
-                inventory.PeerTrade = itemstock.inventory;
-                itemstock.PickUpStock(this);
+                GameObject obj = networkIdentity.gameObject;
+                CharacterSystem characterSystem = obj.GetComponent<CharacterSystem>();
+                characterSystem.Stock = characterSystem.Stock;
             }
         }
     }
+
     [Command(channel = 0)]
     private void CmdDirectObjectInteractive(uint objectid)
     {
-        NetworkServer.objects.TryGetValue(objectid, out NetworkIdentity networkIdentity);
-        GameObject obj = networkIdentity != null ? networkIdentity.gameObject : null;
-
-        if (obj)
+        if (NetworkServer.spawned.ContainsKey(objectid))
         {
-            obj.SendMessage("Pickup", this.GetComponent<CharacterSystem>(), SendMessageOptions.DontRequireReceiver);
+            NetworkIdentity networkIdentity;
+            if (NetworkServer.spawned.TryGetValue(objectid, out networkIdentity))
+            {
+                GameObject obj = networkIdentity.gameObject;
+                // Removed the return statement
+                obj.GetComponent<CharacterSystem>();
+            }
         }
     }
+
 
     [Command(channel = 0)]
     private void CmdInteractive(Vector3 origin, Vector3 direction)

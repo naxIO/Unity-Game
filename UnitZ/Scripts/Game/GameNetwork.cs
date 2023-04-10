@@ -8,10 +8,7 @@ public class GameNetwork : NetworkManager
     public string hostPassword = "";
     public int playerNetID = -1;
 
-    public bool IsClientLoadedScene()
-    {
-        return clientLoadedScene;
-    }
+    public bool IsClientLoadedScene => NetworkClient.ready;
 
     public void RequestSpawnPlayer(Vector3 position, int connectID, string userID, string username, int characterIndex, string characterKey, byte team, int spawnPoint, NetworkConnectionToClient conn)
     {
@@ -59,13 +56,12 @@ public void HostGame(string levelName, bool online)
     Debug.Log("Host game Max " + maxConnections);
 }
 
-public void JoinGame(string ipAddress, int port)
+public void JoinGame(string ipAddress)
 {
     networkAddress = ipAddress;
-    NetworkManager.singleton.networkPort = port;
     StartClient();
-    Debug.Log("Connecting to IP: " + ipAddress + " and Port: " + port);
 }
+
 
 public void Disconnect()
 {

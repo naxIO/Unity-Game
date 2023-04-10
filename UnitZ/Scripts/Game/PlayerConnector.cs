@@ -80,13 +80,14 @@ public class PlayerConnector : NetworkBehaviour
         NetworkServer.Destroy(this.gameObject);
     }
 
-    [Client]
-    void GetNetID()
-    {
-        NetID = this.GetComponent<NetworkIdentity>().netId;
-        ConnectID = (int)NetID.Value;
-        CmdTellServerMyInfo((int)NetID.Value, UnitZ.gameManager.UserName, UnitZ.gameManager.Team, UnitZ.GameKeyVersion);
-    }
+[Client]
+void GetNetID()
+{
+    NetID = this.GetComponent<NetworkIdentity>().netId;
+    ConnectID = (int)NetID;
+    CmdTellServerMyInfo((int)NetID, UnitZ.gameManager.UserName, UnitZ.gameManager.Team, UnitZ.GameKeyVersion);
+}
+
 
     [Command]
     void CmdTellServerMyInfo(int id, string username, string team, string gamekey)

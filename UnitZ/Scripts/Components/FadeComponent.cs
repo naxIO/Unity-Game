@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Mirror;
 
 public class FadeComponent : MonoBehaviour
 {
@@ -27,10 +28,10 @@ public class FadeComponent : MonoBehaviour
 			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), BG);
 		}
 
-		if(!UnitZ.gameNetwork.clientLoadedScene && UnitZ.gameNetwork.isNetworkActive){
-			if(LoadingBG)
-			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), LoadingBG);
-		}
+if (!NetworkClient.active) {
+    if (LoadingBG)
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), LoadingBG);
+}
 		GUI.depth = 0;
 	}
 

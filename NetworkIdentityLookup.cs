@@ -34,27 +34,20 @@ public class NetworkIdentityLookup : MonoBehaviour
         NetworkServer.UnregisterHandler<ObjectSpawnFinishedMessage>();
     }
 
-    private void OnObjectSpawnStarted(NetworkConnectionToClient conn, ObjectSpawnStartedMessage message)
+    private void OnObjectSpawnStarted(ObjectSpawnStartedMessage message)
     {
-        var go = message.spawned;
+        var go = message.prefab;
         if (go == null) return;
         var identity = go.GetComponent<NetworkIdentity>();
         if (identity == null) return;
-        if (identity.connectionToClient == null || identity.connectionToClient == conn)
-        {
-            RegisterNetworkIdentity(identity);
-        }
+        RegisterNetworkIdentity(identity);
     }
 
-    private void OnObjectSpawnFinished(NetworkConnectionToClient conn, ObjectSpawnFinishedMessage message)
+    private void OnObjectSpawnFinished(ObjectSpawnFinishedMessage message)
     {
-        var go = message.spawned;
-        if (go == null) return;
-        var identity = go.GetComponent<NetworkIdentity>();
-        if (identity == null) return;
-        if (identity.connectionToClient == null || identity.connectionToClient == conn)
+        foreach (var identity in message.netIdentities)
         {
-            RegisterNetworkIdentity(identity);
+            RegisterNetworkIdentity(identity.Value);
         }
     }
 
