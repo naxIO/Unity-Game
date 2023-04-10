@@ -13,7 +13,7 @@ public class GameNetwork : NetworkManager
         return clientLoadedScene;
     }
 
-    public void RequestSpawnPlayer(Vector3 position, int connectID, string userID, string username, int characterIndex, string characterKey, byte team, int spawnPoint, NetworkConnection conn)
+    public void RequestSpawnPlayer(Vector3 position, int connectID, string userID, string username, int characterIndex, string characterKey, byte team, int spawnPoint, NetworkConnectionToClient conn)
     {
         GameObject player = UnitZ.playerManager.InstantiatePlayer(connectID, userID, username, characterKey, characterIndex, team, spawnPoint);
         if (player == null)
